@@ -7,10 +7,20 @@
 # All rights reserved - Do Not Redistribute
 
 include_recipe 'aws'
+aws = data_bag_item("aws", "main")
 
-aws_s3_file "#{Chef::Config[:file_cache_path]}/install/aem/license.properties" do
+aws_s3_file "/tmp/license.properties" do
   bucket "cru-aem6"
   remote_path "/installation_files/license.properties"
-  aws_access_key_id node[:custom_access_key]
-  aws_secret_access_key node[:custom_secret_key]
-end#
+  aws_access_key_id aws['aws_access_key_id']
+  aws_secret_access_key aws['aws_secret_access_key']
+ 
+end
+
+aws_s3_file "/tmp/cq60-author-p4502.jar" do
+  bucket "cru-aem6"
+  remote_path "/installation_files/cq60-author-p4502.jar"
+  aws_access_key_id aws['aws_access_key_id']
+  aws_secret_access_key aws['aws_secret_access_key']
+  
+end
